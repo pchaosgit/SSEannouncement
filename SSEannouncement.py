@@ -80,6 +80,8 @@ def downloadannouncement(url, tagetfileName):
     if not os.path.isfile(filename):
         print("downloading:", url, filename)
         wget.download(url, filename)
+    else:
+        print("FileExist:", url, filename)
 
 def getAllPDF(soup):
     for tag in soup.find_all("div", {"id":"announcementDiv"}):
@@ -100,4 +102,3 @@ if __name__ == "__main__":
     finally:
         browser.close()
 
-filename= wget.download("http://static.sse.com.cn/disclosure/listedinfo/announcement/c/2015-10-01/600401_20151001_2.pdf", "/tmp/aa.pdf")
