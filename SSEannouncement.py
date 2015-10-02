@@ -5,6 +5,7 @@ import selenium.webdriver.support.ui as ui
 import datetime
 import wget
 import tempfile
+from bs4 import BeautifulSoup
 
 def login(username,password):
     browser = webdriver.Firefox()
@@ -34,8 +35,8 @@ def test():
     passwd = "passwd"
     login(username, passwd)
 
-def testsse():
-  stcode = "600401"
+def testsse(stcode):
+  stcode = stcode
   #sseSearch(stcode)
   sseSearchbyhrefs(stcode)
 
@@ -61,7 +62,6 @@ def  sseSearchbyhrefs(stcode):
     global browser
     wait = ui.WebDriverWait(browser, 10)
     r = stockannouncementURL(stcode)
-    print(r.text)
     #assert "productId" in r.text
     wait.until(lambda browser: browser.find_element_by_xpath("//div[@id='announcementDiv']"))
     print("browser.title: " + browser.title)
@@ -95,10 +95,11 @@ def getAllPDF(soup):
 if __name__ == "__main__":
     browser = getBrower()
     try:
+        stcode = "600177"
         browser.maximize_window()
-        testsse()
+        testsse(stcode)
         soup = BeautifulSoup(browser.page_source, 'lxml')
-        tabtable = soup.findAll("div", {"id":"announcementDiv"})
+        getAllPDF(soup)
     finally:
         browser.close()
 
