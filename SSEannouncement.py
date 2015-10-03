@@ -1,3 +1,5 @@
+__author__ = 'pchaosgit'
+__email__ = 'drifthua@gmail.com'
 # -*-coding:utf-8-*-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
