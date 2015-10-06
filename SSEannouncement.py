@@ -6,8 +6,10 @@ from selenium.webdriver.common.keys import Keys
 import selenium.webdriver.support.ui as ui
 import datetime
 import wget
+import os
 import tempfile
 from bs4 import BeautifulSoup
+
 
 def login(username,password):
     browser = webdriver.Firefox()
@@ -97,11 +99,14 @@ def getAllPDF(soup):
 if __name__ == "__main__":
     browser = getBrower()
     try:
-        stcode = "600177"
         browser.maximize_window()
+        stcode = "600401"
         testsse(stcode)
         soup = BeautifulSoup(browser.page_source, 'lxml')
         getAllPDF(soup)
+        # stcode = "600000"
+        # testsse(stcode)
+        # soup = BeautifulSoup(browser.page_source, 'lxml')
+        # getAllPDF(soup)
     finally:
         browser.close()
-

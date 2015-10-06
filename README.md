@@ -2,8 +2,9 @@
 version 0.1
 
 Download SSE announcement from http://www.sse.com.cn/disclosure/listedinfo/announcement
+--------------------------------------------------------------------------------
+run program:
 
-run program
   python SSEannouncement.py
 
 --------------------------------------------------------------------------------
