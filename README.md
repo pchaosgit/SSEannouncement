@@ -30,7 +30,7 @@ POSTDATA=leftid=1&lmid=drgg&pageNo=1&stockCode=000737&keyword=&noticeType=&start
 --------------------------------------------------------------------------------
 上证公司公告
 
-<pre>
+<textarea rows="15" cols="100">
 当有分页时
 （http://www.sse.com.cn/assortment/stock/list/stockdetails/announcement/index.shtml?COMPANY_CODE=600359&startDate=2015-06-03&endDate=2015-10-03&productId=600359&startDate=2015-07-03&endDate=2015-10-03&reportType=ALL&reportType2=%E5%85%A8%E9%83%A8&reportType=ALL&moreConditions=true）：
 <div id="announcementDiv_container_pagination" class="paging">
@@ -74,4 +74,4 @@ POSTDATA=leftid=1&lmid=drgg&pageNo=1&stockCode=000737&keyword=&noticeType=&start
   </div>
 --------------------------------------------------
 
-</pre>
+</textarea>

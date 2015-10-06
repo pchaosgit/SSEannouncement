@@ -9,7 +9,10 @@ import wget
 import os
 import tempfile
 from bs4 import BeautifulSoup
+import logging
 
+logging.basicConfig(
+        level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s', datefmt='%a, %d %b %Y %H:%M:%S')
 
 def login(username,password):
     browser = webdriver.Firefox()
@@ -29,7 +32,7 @@ def login(username,password):
 
     browser.find_element_by_xpath("//*[@id='pl_login_form']/div[5]/div[6]/div[1]/a/span").click()
 
-    print( browser.find_element_by_xpath("//*[@id='v6_pl_content_homefeed']/div[2]/div[3]/div[1]/div[1]/div[3]/div[1]/a[1]").get_attribute("usercard"))
+    logging.debug( browser.find_element_by_xpath("//*[@id='v6_pl_content_homefeed']/div[2]/div[3]/div[1]/div[1]/div[3]/div[1]/a[1]").get_attribute("usercard"))
 
 def getBrower(browserName="firefox"):
     return webdriver.Firefox()
@@ -68,9 +71,9 @@ def  sseSearchbyhrefs(stcode):
     r = stockannouncementURL(stcode)
     #assert "productId" in r.text
     wait.until(lambda browser: browser.find_element_by_xpath("//div[@id='announcementDiv']"))
-    print("browser.title: " + browser.title)
+    logging.debug("browser.title: " + browser.title)
     #assert stcode in browser.title
-    print(browser.find_element_by_xpath("//div[@id='announcementDiv']").text)
+    logging.debug(browser.find_element_by_xpath("//div[@id='announcementDiv']").text)
 
 def getparams(urlparam):
     str="?"
@@ -82,11 +85,10 @@ def getparams(urlparam):
 def downloadannouncement(url, tagetfileName):
     filename = tempfile.gettempdir() + "/" + tagetfileName
     if not os.path.isfile(filename):
-        print("downloading:", url, filename)
+        logging.info("downloading: %{url} %{filename}" %{url ,  filename})
         wget.download(url, filename)
     else:
-        print("FileExist:", url, filename)
-
+        logging.info("FileExist: " + url +  filename)
 def getAllPDF(soup):
     for tag in soup.find_all("div", {"id":"announcementDiv"}):
         for tagchild in tag.findAll("tr"):
@@ -97,6 +99,7 @@ def getAllPDF(soup):
                     downloadannouncement(greatgrandson["href"], filename)
 
 if __name__ == "__main__":
+    logging.info(" started")
     browser = getBrower()
     try:
         browser.maximize_window()
@@ -110,3 +113,4 @@ if __name__ == "__main__":
         # getAllPDF(soup)
     finally:
         browser.close()
+        logging.info(" Ended")
