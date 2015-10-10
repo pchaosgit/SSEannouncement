@@ -35,7 +35,8 @@ def login(username,password):
     logging.debug( browser.find_element_by_xpath("//*[@id='v6_pl_content_homefeed']/div[2]/div[3]/div[1]/div[1]/div[3]/div[1]/a[1]").get_attribute("usercard"))
 
 def getBrower(browserName="firefox"):
-    return webdriver.Firefox()
+    if browserName.lower() == "firefox":
+        return webdriver.Firefox()
 
 def test():
     username = "email"
@@ -85,10 +86,13 @@ def getparams(urlparam):
 def downloadannouncement(url, tagetfileName):
     filename = tempfile.gettempdir() + "/" + tagetfileName
     if not os.path.isfile(filename):
-        logging.info("downloading: %{url} %{filename}" %{url ,  filename})
+        logging.info("downloading: " + url + filename)
+        #使用以下语句，url长度可能会引起错误：“ urwid.canvas.CanvasError: Canvas text is wider than the maxcol specified“
+        # logging.info("downloading: %{url} %{filename}" %{url ,  filename})
         wget.download(url, filename)
     else:
         logging.info("FileExist: " + url +  filename)
+
 def getAllPDF(soup):
     for tag in soup.find_all("div", {"id":"announcementDiv"}):
         for tagchild in tag.findAll("tr"):
@@ -104,6 +108,7 @@ if __name__ == "__main__":
     try:
         browser.maximize_window()
         stcode = "600401"
+        stcode = "601169"
         testsse(stcode)
         soup = BeautifulSoup(browser.page_source, 'lxml')
         getAllPDF(soup)
