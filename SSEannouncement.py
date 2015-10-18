@@ -54,7 +54,6 @@ def  sseSearch(stcode):
     browser.get("http://www.sse.com.cn/disclosure/listedinfo/announcement/")
     #browser.get("http://www.sse.com.cn/assortment/stock/list/stockdetails/announcement/index.shtml?COMPANY_CODE=600401&productId=600401&bt=%E5%85%A8%E9%83%A8&static=t")
     #assert "公司公告" in driver.title
-    #assert "productId" in driver.text
     sseInput = browser.find_element_by_xpath("//*[@id='productId']")
     sseInput.send_keys(stcode)
     sseInput.send_keys(Keys.RETURN)
@@ -70,7 +69,6 @@ def  sseSearchbyhrefs(stcode):
     global browser
     wait = ui.WebDriverWait(browser, 10)
     r = stockannouncementURL(stcode)
-    #assert "productId" in r.text
     wait.until(lambda browser: browser.find_element_by_xpath("//div[@id='announcementDiv']"))
     logging.debug("browser.title: " + browser.title)
     #assert stcode in browser.title
@@ -84,11 +82,14 @@ def getparams(urlparam):
     return str.lstrip("&")
 
 def downloadannouncement(url, tagetfileName):
-    filename = tempfile.gettempdir() + "/" + tagetfileName
+    file_name, file_ext = os.path.splitext(url)
+    # todo 取得url内的文件后缀，加到filename
+    filename = tempfile.gettempdir() + "/" + tagetfileName + file_ext
     if not os.path.isfile(filename):
-        logging.info("downloading: " + url + filename)
         #使用以下语句，url长度可能会引起错误：“ urwid.canvas.CanvasError: Canvas text is wider than the maxcol specified“
         # logging.info("downloading: %{url} %{filename}" %{url ,  filename})
+        # 
+        logging.info("downloading: {0} {1}".format(url, filename))
         wget.download(url, filename)
     else:
         logging.info("FileExist: " + url +  filename)
@@ -102,15 +103,23 @@ def getAllPDF(soup):
                 for greatgrandson in taggrandchild[0].findAll("a"):
                     downloadannouncement(greatgrandson["href"], filename)
 
+def saveToFile(filename = '', soup = None):
+    with open(filename, "w") as text_file:
+        text_file.write("{0}".format(soup))
+    logging.info('saved file: {0} '.format(filename))
+
 if __name__ == "__main__":
     logging.info(" started")
     browser = getBrower()
     try:
         browser.maximize_window()
         stcode = "600401"
-        stcode = "601169"
+        # stcode = "601169"
+        # stcode = "600200"
         testsse(stcode)
         soup = BeautifulSoup(browser.page_source, 'lxml')
+        if len(soup) > 1:
+            saveToFile(os.path.join(tempfile.gettempdir(), '{0}.htm'.format(stcode)), soup)
         getAllPDF(soup)
         # stcode = "600000"
         # testsse(stcode)
