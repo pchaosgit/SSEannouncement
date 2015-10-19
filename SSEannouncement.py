@@ -44,9 +44,9 @@ def test():
     login(username, passwd)
 
 def testsse(stcode):
-  stcode = stcode
-  #sseSearch(stcode)
-  sseSearchbyhrefs(stcode)
+    stcode = stcode
+    #sseSearch(stcode)
+    sseSearchbyhrefs(stcode)
 
 def  sseSearch(stcode):
     browser = webdriver.Firefox()
@@ -65,7 +65,7 @@ def stockannouncementURL(stcode, startDate=datetime.date.today( ), endDate= date
     url = "http://www.sse.com.cn/assortment/stock/list/stockdetails/announcement/index.shtml"
     return browser.get(url + getparams(urlparam))
 
-def  sseSearchbyhrefs(stcode):
+def sseSearchbyhrefs(stcode):
     global browser
     wait = ui.WebDriverWait(browser, 10)
     r = stockannouncementURL(stcode)
@@ -88,7 +88,7 @@ def downloadannouncement(url, tagetfileName):
     if not os.path.isfile(filename):
         #使用以下语句，url长度可能会引起错误：“ urwid.canvas.CanvasError: Canvas text is wider than the maxcol specified“
         # logging.info("downloading: %{url} %{filename}" %{url ,  filename})
-        # 
+        #
         logging.info("downloading: {0} {1}".format(url, filename))
         wget.download(url, filename)
     else:
@@ -99,6 +99,7 @@ def getAllPDF(soup):
         for tagchild in tag.findAll("tr"):
             if len(tagchild.findAll("a")):
                 taggrandchild = tagchild.findAll("td")
+                #  文件名格式： 600401_其它_2015-08-15_*ST海润独立董事独立意见.pdf
                 filename = taggrandchild[1].string + "_" + taggrandchild[2].string + "_" + taggrandchild[4].string + "_" + taggrandchild[0].string
                 for greatgrandson in taggrandchild[0].findAll("a"):
                     downloadannouncement(greatgrandson["href"], filename)
@@ -119,6 +120,7 @@ if __name__ == "__main__":
         testsse(stcode)
         soup = BeautifulSoup(browser.page_source, 'lxml')
         if len(soup) > 1:
+            # save htm
             saveToFile(os.path.join(tempfile.gettempdir(), '{0}.htm'.format(stcode)), soup)
         getAllPDF(soup)
         # stcode = "600000"

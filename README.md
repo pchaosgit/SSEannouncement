@@ -2,17 +2,19 @@
 version 0.1
 
 Download SSE announcement from http://www.sse.com.cn/disclosure/listedinfo/announcement
+
+邮箱： drifthua#gmail.com
 --------------------------------------------------------------------------------
-开发环境：
+# 开发环境：
   python3 selenium wget BeautifulSoup4
 
 --------------------------------------------------------------------------------
-run program:
+# run program:
 
   python SSEannouncement.py
 
 --------------------------------------------------------------------------------
-下载最新上市公司公告
+# 下载最新上市公司公告
 
 深圳上市公司公告：
 http://disclosure.szse.cn/m/search0425.jsp
@@ -77,5 +79,21 @@ POSTDATA=leftid=1&lmid=drgg&pageNo=1&stockCode=000737&keyword=&noticeType=&start
    </div>
   </div>
 --------------------------------------------------
+深圳公司公告
+http://disclosure.szse.cn/m/search0425.jsp
+http://disclosure.szse.cn/m/search0425.jsp?stockCode=000998&startTime=2013-10-02&endTime=2015-10-18
+
+
+--------------------------------------------------
 
 </textarea>
+
+## todolist
+
+# 需要获取公告的股票代码从文本中读取
+
+# 重构为类调用，根据股票代码自动调用对应函数
+
+# 定时自动调用
+
+# 使用worker client 模式加快处理速度
