@@ -85,7 +85,6 @@ def sseSearchbyhrefs(stcode):
         logging.debug("td.td2" + browser.find_element_by_css_selector('td.td2').text)
     except ValueError:
          logging.debug("Oops! not find the announcement")
-        pass
 
 def testsse(stcode):
     stcode = stcode
