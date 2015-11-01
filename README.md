@@ -97,3 +97,10 @@ http://disclosure.szse.cn/m/search0425.jsp?stockCode=000998&startTime=2013-10-02
 # 定时自动调用
 
 # 使用worker client 模式加快处理速度
+
+
+<!-- update git to master -->
+git checkout master
+git merge dev
+git branch -d dev
+git checkout -b dev
