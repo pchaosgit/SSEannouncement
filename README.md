@@ -103,4 +103,7 @@ http://disclosure.szse.cn/m/search0425.jsp?stockCode=000998&startTime=2013-10-02
 git checkout master
 git merge dev
 git branch -d dev
+git push
 git checkout -b dev
+git push --set-upstream origin dev
+

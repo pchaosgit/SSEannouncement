@@ -15,8 +15,11 @@ from urllib.parse import urljoin
 import logging
 import re
 
+# logging.basicConfig(
+#         level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s', datefmt='%a, %d %b %Y %H:%M:%S')
+
 logging.basicConfig(
-        level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s', datefmt='%a, %d %b %Y %H:%M:%S')
+        level=logging.DEBUG, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s', datefmt='%a, %d %b %Y %H:%M:%S')
 
 baseurl = "http://disclosure.szse.cn/m/search0425.jsp"
 def getBrower(browserName="firefox"):
@@ -69,16 +72,20 @@ def stockannouncementURL(stcode, startDate=datetime.date.today(), endDate= datet
     # r = browser.get("http://www.szse.cn/main/disclosure/rzrqxx/rzrqjy/")
     r = browser.get("http://disclosure.szse.cn/m/drgg.htm")
     if browser.find_element_by_xpath("//td"):
+        logging.debug('find_element_by_xpath("//td")')
         return browser.get(url + getparams(urlparam))
 
 def sseSearchbyhrefs(stcode):
     global browser
     wait = ui.WebDriverWait(browser, 15)
-    r = stockannouncementURL(stcode)
-    wait.until(lambda browser: browser.find_element_by_css_selector('td.page12'))
-    logging.debug("browser.title: " + browser.title)
-    #assert stcode in browser.title
-    logging.debug(browser.find_element_by_css_selector('td.td2').text)
+    try:
+        r = stockannouncementURL(stcode)
+        wait.until(lambda browser: browser.find_element_by_css_selector('td.page12'))
+        logging.debug("browser.title: " + browser.title)
+        logging.debug("td.td2" + browser.find_element_by_css_selector('td.td2').text)
+    except ValueError:
+         logging.debug("Oops! not find the announcement")
+        pass
 
 def testsse(stcode):
     stcode = stcode
@@ -93,7 +100,6 @@ if __name__ == "__main__":
         stcode = "000998"
         stcode = "000693"
         stcode = "300135"
-        # stcode = "600200"
         testsse(stcode)
         soup = BeautifulSoup(browser.page_source, 'lxml')
 
@@ -109,10 +115,6 @@ if __name__ == "__main__":
                 # a = BeautifulSoup(a, 'lxml')
                 saveToFile(os.path.join(tempfile.gettempdir(), '{0}.htm'.format(stcode)), a)
         getAllPDF(soup)
-        # stcode = "600000"
-        # testsse(stcode)
-        # soup = BeautifulSoup(browser.page_source, 'lxml')
-        # getAllPDF(soup)
     finally:
         browser.close()
         logging.info(" Ended")
