@@ -3,7 +3,7 @@ version 0.1
 
 Download SSE announcement from http://www.sse.com.cn/disclosure/listedinfo/announcement
 
-邮箱： drifthua#gmail.com
+    邮箱： drifthua#gmail.com
 --------------------------------------------------------------------------------
 # 开发环境：
   python3 selenium wget BeautifulSoup4
